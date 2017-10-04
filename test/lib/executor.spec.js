@@ -114,8 +114,4 @@ describe.only('T1000: EXECUTOR', function () {
             throw error;
         });
     });
-
-    it('test should fail', function () {
-        expect(true).to.be.true;
-    });
 });
