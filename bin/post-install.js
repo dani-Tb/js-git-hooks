@@ -2,6 +2,17 @@
 
 const path = require('path');
 const fs = require('fs');
+const { execSync } = require('child_process');
+
+const findGitFolderCommand = 'git rev-parse --show-toplevel';
+
+const getGitRootFolder = function () {
+    return execSync(findGitFolderCommand).toString().trim().replace("\n", '');
+};
+
+const copyFile = function (src, dest) {
+    fs.renameSync(src, dest);
+};
 
 const installHook = function (destPath, name) {
     let dest = path.resolve(destPath);
@@ -11,16 +22,16 @@ const installHook = function (destPath, name) {
     let script = path.resolve(__dirname, './js-git-hooks.js');
 
     let scriptContent = `
-#!/usr/bin/env sh 
+#!/usr/bin/env sh
 
-CONFIG_FILE_PATH=$(readlink -f .jshooksrc) 
-  
+CONFIG_FILE_PATH=$(readlink -f .jshooksrc)
+
 ${script} -c ${name} -f $CONFIG_FILE_PATH
-  
+
 `;
 
     if (fs.existsSync(dest)) {
-        fs.unlinkSync(dest);
+        copyFile(dest, dest + '.js-git-hooks-old');
     }
 
     fs.writeFileSync(dest, scriptContent);
@@ -28,7 +39,7 @@ ${script} -c ${name} -f $CONFIG_FILE_PATH
 };
 
 const install = function () {
-    let dest = path.resolve(process.cwd(), '.git');
+    let dest = path.resolve(getGitRootFolder(), '.git');
 
     if (!dest) {
         throw new Error('Not valid project to install in');
@@ -37,6 +48,7 @@ const install = function () {
     console.log('Project folder: ' + dest);
 
     installHook(path.resolve(dest, './hooks/pre-commit'), 'pre-commit');
+    installHook(path.resolve(dest, './hooks/pre-push'), 'pre-push');
 };
 
 install();

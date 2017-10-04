@@ -1,6 +1,6 @@
 {
   "name": "js-git-hooks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Check linitng in modified js files",
   "main": "index.js",
   "bin": {
@@ -12,7 +12,9 @@
     "test:watch": "./node_modules/.bin/mocha -w --reporter spec",
     "test:debug": "node debug ./node_modules/.bin/mocha --reporter nyan",
     "test:coverage": "./node_modules/.bin/nyc --reporter=html --reporter=clover ./node_modules/mocha/bin/_mocha",
-    "tdd:mac": "./node_modules/.bin/mocha -w"
+    "tdd:mac": "./node_modules/.bin/mocha -w",
+    "postinstall": "bin/post-install.js",
+    "uninstall": "bin/uninstall.js"
   },
   "keywords": [
     "git",
