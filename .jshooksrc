@@ -1,0 +1,9 @@
+{
+    "test": "rc test",
+    "githooks": {
+        "pre-commit": [
+            "node  app/lib/hooks/eslint.integrator.js",
+            "npm test"
+          ]
+     }
+}

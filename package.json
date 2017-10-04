@@ -1,0 +1,45 @@
+{
+  "name": "js-git-hooks",
+  "version": "0.1.0",
+  "description": "Check linitng in modified js files",
+  "main": "index.js",
+  "bin": {
+    "js-git-hooks": "./bin/js-git-hooks.js"
+  },
+  "scripts": {
+    "start": "node bin/js-git-hooks.js",
+    "test": "make test",
+    "test:watch": "make test-watch",
+    "test:debug": "node debug ./node_modules/.bin/mocha --reporter nyan",
+    "test:coverage": "./node_modules/.bin/nyc --reporter=html --reporter=clover ./node_modules/mocha/bin/_mocha",
+    "tdd:mac": "./node_modules/.bin/mocha -w"
+  },
+  "keywords": [
+    "git",
+    "js",
+    "linting"
+  ],
+  "author": "d.T.b",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "nodegit": "^0.20.1",
+    "terminal-kit": "^1.13.11",
+    "yargs": "^9.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1",
+    "proxyquire": "^1.8.0",
+    "sinon": "^3.2.1",
+    "sinon-chai": "^2.13.0"
+  }
+}
