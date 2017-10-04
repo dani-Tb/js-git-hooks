@@ -9,16 +9,31 @@ const { execSync } = require('child_process');
 const configFile = '.eslintrc';
 const ERROR_CODE = 1;
 
-const gitCommand = 'git diff --cached --name-only --diff-filter=ACMR | grep \'\\.js$\'';
+const gitCommandNoGrep = 'git diff --cached --name-only --diff-filter=ACMR';
 
 let cwd = process.cwd();
 let config;
 
+const filterJsFiles = function (allFileNames) {
+    let jsFiles = [];
+    let regex = new RegExp(/.js$/);
+
+    for (let key in allFileNames) {
+        if (regex.test(allFileNames[key])) {
+            jsFiles.push(allFileNames[key]);
+        }
+    }
+
+    return jsFiles;
+};
+
 const getGitCachedFiles = function () {
-    return execSync(gitCommand, {cwd: cwd})
+    let allFilesChanged = execSync(gitCommandNoGrep, {cwd: cwd})
         .toString()
         .trim()
         .split('\n');
+
+    return filterJsFiles(allFilesChanged);
 };
 
 const executeLinter = function (files) {
@@ -55,7 +70,11 @@ const GitChangesEslinting = function () {
 
     let files = getGitCachedFiles();
 
-    executeLinter(files);
+    if (files.length > 0) {
+        executeLinter(files);
+    } else {
+        console.log('No JS files');
+    }
 };
 
 GitChangesEslinting();

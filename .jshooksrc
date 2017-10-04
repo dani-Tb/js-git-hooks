@@ -6,7 +6,6 @@
             "npm test"
           ],
         "pre-push": [
-            "node  app/lib/hooks/eslint.integrator.js",
             "npm test"
         ]
      }

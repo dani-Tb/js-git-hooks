@@ -24,4 +24,4 @@ if (argv.f) {
 
 App(command, configFile);
 
-console.log('exit code :: ', process.exitCode);
+// console.log('exit code :: ', process.exitCode);
