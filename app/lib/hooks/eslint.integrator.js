@@ -51,8 +51,6 @@ const executeLinter = function (files) {
 };
 
 const GitChangesEslinting = function () {
-    console.log("CWD :: " + cwd);
-
     config = require('../config').getConfig(configFile);
 
     let files = getGitCachedFiles();

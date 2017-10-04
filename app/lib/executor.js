@@ -5,7 +5,21 @@ const term = require('terminal-kit').terminal;
 const spawn = require('child_process').spawn;
 
 const doIt = function (command) {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
+        // let {stdout, stderr, status} = spawnSync(command, [], {shell: true});
+        //
+        // term(stdout);
+        //
+        // if (stderr) {
+        //     term.red(stderr);
+        // }
+        //
+        // if (status === 0) {
+        //     resolve(status);
+        // } else {
+        //     reject(status);
+        // }
+
         let proc = spawn(command, [], {shell: true});
 
         proc.stdout.on('data', function (data) {
@@ -39,6 +53,5 @@ const doThem = function (commands) {
 };
 
 module.exports = {
-    // doIt,
     doThem,
 };

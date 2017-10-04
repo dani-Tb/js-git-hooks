@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "node bin/js-git-hooks.js",
-    "test": "make test",
-    "test:watch": "make test-watch",
+    "test": "./node_modules/.bin/mocha --reporter spec",
+    "test:watch": "./node_modules/.bin/mocha -w --reporter spec",
     "test:debug": "node debug ./node_modules/.bin/mocha --reporter nyan",
     "test:coverage": "./node_modules/.bin/nyc --reporter=html --reporter=clover ./node_modules/mocha/bin/_mocha",
     "tdd:mac": "./node_modules/.bin/mocha -w"

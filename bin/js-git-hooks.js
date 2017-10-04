@@ -23,3 +23,5 @@ if (argv.f) {
 }
 
 App(command, configFile);
+
+console.log('exit code :: ', process.exitCode);

@@ -20,5 +20,16 @@ module.exports = function (command, configFilePath) {
         throw new Error('No hook configured in jshooksrc file.');
     }
 
-    executor.doThem(config.githooks[command]);
+    executor.doThem(config.githooks[command]).then(
+        function () {
+            console.log('Hooks passed!');
+
+            process.exitCode = 0;
+        },
+        function () {
+            console.log('Fix your code!');
+
+            process.exitCode = -1;
+        }
+    );
 };
