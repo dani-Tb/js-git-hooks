@@ -77,5 +77,4 @@ const GitChangesEslinting = function () {
     }
 };
 
-
 GitChangesEslinting();
