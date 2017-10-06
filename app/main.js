@@ -1,7 +1,10 @@
 'use strict';
 
-// const term = require('terminal-kit').terminal;
+const term = require('terminal-kit').terminal;
 const executor = require('./lib/executor');
+
+const SUCCESS_CODE = 0;
+const ERROR_CODE = 1;
 
 let config;
 
@@ -22,14 +25,20 @@ module.exports = function (command, configFilePath) {
 
     executor.doThem(config.githooks[command]).then(
         function () {
-            console.log('Hooks passed!');
+            term.green(`Hooks passed!\n`);
 
-            process.exitCode = 0;
+            process.exitCode = SUCCESS_CODE;
         },
-        function () {
-            console.log('Fix your code!');
+        function (error) {
+            term.red(`Fix your code! ${error}\n`);
 
-            process.exitCode = -1;
+            process.exitCode = ERROR_CODE;
+        }
+    ).catch(
+        function (error) {
+            term.red(`Fix your code! Unhandled exception: ${error}\n`);
+
+            process.exitCode = ERROR_CODE;
         }
     );
 };

@@ -19,7 +19,8 @@
   "keywords": [
     "git",
     "js",
-    "linting"
+    "linting",
+    "autoinstall"
   ],
   "author": "d.T.b",
   "license": "UNLICENSED",

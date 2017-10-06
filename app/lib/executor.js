@@ -1,57 +1,36 @@
 'use strict';
 
-const term = require('terminal-kit').terminal;
+const runCommand = require('./run.command');
 
-const spawn = require('child_process').spawn;
+let commands;
 
-const doIt = function (command) {
-    return new Promise((resolve, reject) => {
-        // let {stdout, stderr, status} = spawnSync(command, [], {shell: true});
-        //
-        // term(stdout);
-        //
-        // if (stderr) {
-        //     term.red(stderr);
-        // }
-        //
-        // if (status === 0) {
-        //     resolve(status);
-        // } else {
-        //     reject(status);
-        // }
+const ERROR_CODE = 1;
 
-        let proc = spawn(command, [], {shell: true});
+const doThem = function (commandStrings) {
+    commands = commandStrings;
 
-        proc.stdout.on('data', function (data) {
-            term(data.toString());
+    return commands.reduce(function (previousPromise, command) {
+        return new Promise(function (resolve, reject) {
+            previousPromise.then(
+                function () {
+                    resolve(runCommand(command));
+                },
+                function (error) {
+                    console.log(`Command error ${error}`);
+
+                    reject(ERROR_CODE);
+                }
+            ).catch(
+                function (error) {
+                    console.log(`Command exception ${error}`);
+
+                    reject(ERROR_CODE);
+                }
+            );
         });
-
-        proc.stderr.on('data', function (data) {
-            term.red(data.toString());
-        });
-
-        proc.on('close', function (code) {
-            // console.log(`child process exited with code ${code}`);
-
-            if (code === 0) {
-                resolve(code);
-            } else {
-                reject(code);
-            }
-        });
-    });
-};
-
-const doThem = function (commands) {
-    const promises = [];
-
-    for (let key in commands) {
-        promises.push(doIt(commands[key]));
-    }
-
-    return Promise.all(promises);
+    }, Promise.resolve());
 };
 
 module.exports = {
-    doThem,
+    doThem
 };

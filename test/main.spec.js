@@ -2,13 +2,9 @@
 
 const path = require('path');
 const mainPath = path.resolve(__dirname, '../app/main');
-// const proxyquire  =  require('proxyquire');
-// const sinon = require('sinon');
-
-// const App = require(mainPath);
 
 const executor = {
-    doThem: function (commands) {}
+    doThem: function () {}
 };
 
 const commandsLis = [
@@ -17,7 +13,7 @@ const commandsLis = [
 
 const configMock = {
     'githooks': {
-        'pre_commit': commandsLis
+        'pre-commit': commandsLis
     }
 };
 
@@ -47,9 +43,19 @@ describe('JS GIT HOOKS MAIN',  () => {
 
     describe('invoke success', () => {
         it ('should run commands defined', () => {
-            let doThemSpy = sinon.spy(executor, 'doThem');
+            let doThemSpy = sinon.stub(executor, 'doThem').callsFake(function () {
+                return {
+                    then: function (cb) {
+                        cb();
 
-            App('pre_commit');
+                        return {
+                            catch: function () {}
+                        };
+                    }
+                };
+            });
+
+            App('pre-commit');
 
             expect(doThemSpy.callCount).to.equal(1);
             expect(doThemSpy).to.have.been.calledWith(commandsLis);
