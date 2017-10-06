@@ -2,5 +2,3 @@
 /coverage/
 /.nyc_output/
 /.idea/
-
-/app/lib/hooks/eslint.integrator.js
