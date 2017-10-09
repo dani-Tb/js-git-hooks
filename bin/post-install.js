@@ -26,7 +26,7 @@ const installHook = function (destPath, name) {
 
 CONFIG_FILE_PATH=$(readlink -f .jshooksrc)
 
-${script} -c ${name} -f $CONFIG_FILE_PATH
+${script} -c ${name} -f $CONFIG_FILE_PATH "$@"
 
 `;
 

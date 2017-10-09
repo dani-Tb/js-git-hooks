@@ -12,7 +12,7 @@ function commandNotConfigured(command) {
     return !config.hasOwnProperty('githooks') || !config.githooks.hasOwnProperty(command);
 }
 
-module.exports = function (command, configFilePath) {
+module.exports = function (command, configFilePath, args) {
     if (!command) {
         throw new Error('No hook specified to run. See --help');
     }
@@ -23,7 +23,7 @@ module.exports = function (command, configFilePath) {
         throw new Error('No hook configured in jshooksrc file.');
     }
 
-    executor.doThem(config.githooks[command]).then(
+    executor.doThem(config.githooks[command], args).then(
         function () {
             term.green(`Hooks passed!\n`);
 

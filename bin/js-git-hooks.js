@@ -2,7 +2,7 @@
 
 const path = require('path');
 const argv = require('yargs')
-    .usage('Usage: $0 -f /config/file -c command')
+    .usage('Usage: $0 -f /config/file -c command arguments')
     .demandOption(['f', 'c'])
     .argv;
 
@@ -22,6 +22,10 @@ if (argv.f) {
     throw new Error('No config file defined');
 }
 
-App(command, configFile);
+console.log('Arguments');
+
+console.log(argv);
+
+App(command, configFile, argv._);
 
 // console.log('exit code :: ', process.exitCode);
