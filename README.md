@@ -38,7 +38,7 @@ Example of *.jshooksrc*:
 }    
 ```
 *githooks* key has a collection of hooks, and each hook has a list of shell commands 
-relative to git project hook. This namespaces hooks list for add other config values 
+relative to git project root. This namespaces hooks list for add other config values 
 if needed in the future.
  
 Use **$@** to propagate hook arguments to commands. For example in *pre-push* hooks.
