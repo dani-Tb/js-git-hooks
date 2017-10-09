@@ -1,6 +1,6 @@
 {
   "name": "js-git-hooks",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Git hooks runner and eslint included",
   "bin": {
     "js-git-hooks": "./bin/js-git-hooks.js"
