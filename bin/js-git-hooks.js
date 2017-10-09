@@ -22,10 +22,6 @@ if (argv.f) {
     throw new Error('No config file defined');
 }
 
-console.log('Arguments');
-
-console.log(argv);
-
 App(command, configFile, argv._);
 
 // console.log('exit code :: ', process.exitCode);
