@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * Deprecated: This file is no longer in use. Use eslint.cli.integrator that
+ * uses CLIEngine instead of linter object. That allows to use ignore files
+ */
+
 const path = require('path');
 const fs = require('fs');
 const linter = require('eslint').linter;

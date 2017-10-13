@@ -8,5 +8,5 @@ const getConfig = function (file) {
 };
 
 module.exports = {
-    getConfig,
+    getConfig
 };

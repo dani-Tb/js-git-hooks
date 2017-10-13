@@ -1,7 +1,7 @@
 {
     "githooks": {
         "pre-commit": [
-            "node  app/lib/hooks/eslint.integrator.js",
+            "node  app/lib/hooks/eslint.cli.integrator.js",
             "npm test"
           ],
         "pre-push": [
