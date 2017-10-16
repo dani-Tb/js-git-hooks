@@ -100,8 +100,6 @@ const executeLinter = function (files) {
 };
 
 const GitChangesEslinting = function () {
-    console.log('cwd:: ' + cwd);
-
     configFilePath = path.resolve(cwd, configFile);
 
     ignoreFilePath = path.resolve(cwd, ignoreFile);

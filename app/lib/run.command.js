@@ -10,18 +10,10 @@ const runCommand = function (command) {
     term.green(`RUN ${command}\n`);
 
     return new Promise((resolve, reject) => {
-        let proc = spawn(command, [], {shell: true});
-
-        proc.stdout.on('data', function (data) {
-            term(data.toString());
-        });
-
-        proc.stderr.on('data', function (data) {
-            term.red(data.toString());
-        });
+        let proc = spawn(command, [], {shell: true, stdio: 'inherit'});
 
         proc.on('close', function (code) {
-            // console.log(`child process exited with code ${code}`);
+            console.log(`child process exited with code ${code}`);
 
             if (code === SUCCESS_CODE) {
                 resolve(code);

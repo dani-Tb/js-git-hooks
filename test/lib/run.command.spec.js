@@ -1,23 +1,13 @@
+/* global proxyquire, describe, it, expect */
+
 const path = require('path');
 
 const runnerPath = path.resolve(__dirname, '../../app/lib/run.command');
 
-const StdioMock = function () {
-    this.dataListener = null;
-
-    this.on = (event, callback) => {
-        this.dataListener = callback;
-    };
-
-    this.setData = (data) => {
-        this.dataListener(data);
-    };
-};
+const successCode = 0;
+const errorCode = 1;
 
 const ProcMock = function (returnCode) {
-    this.stdout = new StdioMock();
-    this.stderr = new StdioMock();
-
     this.listeners = {};
 
     this.on = (event, callback) => {
@@ -29,16 +19,12 @@ const ProcMock = function (returnCode) {
     };
 };
 
-
 const spawnStub = function (command) {
     let proc = procs[command];
     let code = successCode;
 
     setTimeout(() => {
-        proc.stdout.setData("output data\n");
-
         if (command === 'failed') {
-            proc.stderr.setData("error message\n");
             code = errorCode;
         }
 
@@ -47,9 +33,6 @@ const spawnStub = function (command) {
 
     return proc;
 };
-
-const successCode = 0;
-const errorCode = 1;
 
 const procs = {
     'successful': new ProcMock(successCode),
@@ -63,7 +46,7 @@ const runCommand = proxyquire(runnerPath, {
 });
 
 describe('RUN COMMAND', function () {
-    it ('should return ERROR CODE on command failed', function (done) {
+    it('should return ERROR CODE on command failed', function (done) {
         let promise = runCommand('failed');
 
         promise.then(
@@ -80,7 +63,7 @@ describe('RUN COMMAND', function () {
         });
     });
 
-    it ('should return SUCCESS CODE on command success', function (done) {
+    it('should return SUCCESS CODE on command success', function (done) {
         let promise = runCommand('successful');
 
         promise.then(
