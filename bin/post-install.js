@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
+const Mustache = require('mustache');
 
 const findGitFolderCommand = 'git rev-parse --show-toplevel';
 
@@ -20,15 +21,9 @@ const installHook = function (destPath, name) {
     console.log('dest ' + dest);
 
     let script = path.resolve(__dirname, './js-git-hooks.js');
+    let templateString = fs.readFileSync(path.resolve(__dirname, '..', 'Resources', 'script.template')).toString();
 
-    let scriptContent = `
-#!/usr/bin/env sh
-
-CONFIG_FILE_PATH=$(readlink -f .jshooksrc)
-
-${script} -c ${name} -f $CONFIG_FILE_PATH "$@"
-
-`;
+    let scriptContent = Mustache.render(templateString, {name: name, script: script});
 
     if (fs.existsSync(dest)) {
         copyFile(dest, dest + '.js-git-hooks-old');

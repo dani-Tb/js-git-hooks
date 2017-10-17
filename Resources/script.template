@@ -1,0 +1,36 @@
+
+#!/usr/bin/env sh
+
+#readlink differs from gnu readlink in Linux and BSD readlink in Darwin (Mac). Great!
+
+CONFIG_FILE=".jshooksrc"
+
+#simulate -f GNU option behavior
+find_file_path()
+{
+	TARGET_FILE=$1
+
+	cd "$(dirname $TARGET_FILE)"
+
+	TARGET_FILE="$(basename $TARGET_FILE)"
+
+	while [ -L "$TARGET_FILE" ]
+	do
+		TARGET_FILE="$(readlink $TARGET_FILE)"
+		cd "$(dirname $TARGET_FILE)"
+
+		TARGET_FILE="$(basename $TARGET_FILE)"
+	done
+
+	PHYS_DIR="$(pwd -P)"
+
+	CONFIG_FILE_PATH=$PHYS_DIR/$TARGET_FILE
+}
+
+if [ "$(uname -s)" = 'Linux' ]; then
+	CONFIG_FILE_PATH=$(readlink -f $CONFIG_FILE)
+else
+	find_file_path $CONFIG_FILE
+fi
+
+{{{script}}} -c {{{name}}} -f $CONFIG_FILE_PATH "$@"
