@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 
 const path = require('path');
 const fs = require('fs');
@@ -7,7 +7,7 @@ const { execSync } = require('child_process');
 const findGitFolderCommand = 'git rev-parse --show-toplevel';
 
 const getGitRootFolder = function () {
-    return execSync(findGitFolderCommand).toString().trim().replace("\n", '');
+    return execSync(findGitFolderCommand).toString().trim().replace(`\n`, '');
 };
 
 const copyFile = function (src, dest) {
