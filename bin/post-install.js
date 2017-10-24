@@ -25,8 +25,8 @@ const installHook = function (destPath, name) {
 
     let scriptContent = Mustache.render(templateString, {name: name, script: script});
 
-    if (fs.existsSync(dest)) {
-        copyFile(dest, dest + '.js-git-hooks-old');
+    if (fs.existsSync(dest) && !fs.existsSync(`${dest}.js-git-hooks-old`)) {
+        copyFile(dest, `${dest}.js-git-hooks-old`);
     }
 
     fs.writeFileSync(dest, scriptContent);
