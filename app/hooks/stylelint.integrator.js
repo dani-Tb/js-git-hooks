@@ -86,7 +86,7 @@ const GitChangesStyleLinting = function () {
             }
         );
     } else {
-        term.green('No SCSS files to lint \n');
+        term('No SCSS files to lint \n');
     }
 };
 
