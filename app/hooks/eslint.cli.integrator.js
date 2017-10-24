@@ -3,7 +3,9 @@
 const path = require('path');
 const { CLIEngine } = require('eslint');
 const term = require('terminal-kit').terminal;
-const { execSync } = require('child_process');
+
+const filterByFileTypes = require('../lib/hooks/filter.by.file.types');
+const getGitCachedFiles = require('../lib/hooks/get.git.cached.files');
 
 const configFile = '.eslintrc';
 const ignoreFile = '.eslintignore';
@@ -12,32 +14,16 @@ const ERROR_CODE = 1;
 const SEVERITY_WARN = 1;
 const SEVERITY_ERROR = 2;
 
-const gitCommandNoGrep = 'git diff --cached --name-only --diff-filter=ACMR';
-
 let cwd = process.cwd();
 let configFilePath;
 let ignoreFilePath;
 
 const filterJsFiles = function (allFileNames) {
-    let jsFiles = [];
-    let regex = new RegExp(/.js$/);
-
-    for (let key in allFileNames) {
-        if (regex.test(allFileNames[key])) {
-            jsFiles.push(allFileNames[key]);
-        }
-    }
-
-    return jsFiles;
+    return filterByFileTypes(allFileNames, /.js$/);
 };
 
-const getGitCachedFiles = function () {
-    let allFilesChanged = execSync(gitCommandNoGrep, {cwd: cwd})
-        .toString()
-        .trim()
-        .split('\n');
-
-    return filterJsFiles(allFilesChanged);
+const getGitJsCachedFiles = function () {
+    return filterJsFiles(getGitCachedFiles());
 };
 
 const executeLinter = function (files) {
@@ -104,7 +90,7 @@ const GitChangesEslinting = function () {
 
     ignoreFilePath = path.resolve(cwd, ignoreFile);
 
-    let files = getGitCachedFiles();
+    let files = getGitJsCachedFiles();
 
     if (files.length > 0) {
         executeLinter(files);
