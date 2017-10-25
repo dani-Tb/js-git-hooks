@@ -46,4 +46,14 @@ const install = function () {
     installHook(path.resolve(dest, './hooks/pre-push'), 'pre-push');
 };
 
-install();
+const nonValidEnvironments = ['oficinas', 'preprod', 'prod'];
+
+const mustPostInstallInThisEnvironment = function () {
+    return !process.env.NODE_ENV || nonValidEnvironments.indexOf(process.env.NODE_ENV) === -1;
+};
+
+if (mustPostInstallInThisEnvironment()) {
+    install();
+} else {
+    console.log('JS GIT HOOKS POST INSTALL SKIPPED');
+}

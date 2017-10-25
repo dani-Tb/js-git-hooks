@@ -1,4 +1,3 @@
-
 #!/usr/bin/env sh
 
 #readlink differs from gnu readlink in Linux and BSD readlink in Darwin (Mac). Great!
