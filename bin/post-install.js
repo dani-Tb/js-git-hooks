@@ -1,5 +1,17 @@
 #!/usr/bin/env node
 
+const nonValidEnvironments = ['oficinas', 'preprod', 'prod'];
+
+const mustPostInstallInThisEnvironment = function () {
+    return !process.env.NODE_ENV || nonValidEnvironments.indexOf(process.env.NODE_ENV) === -1;
+};
+
+if (!mustPostInstallInThisEnvironment()) {
+    console.log('JS GIT HOOKS POST INSTALL SKIPPED');
+
+    process.exit(0);
+}
+
 const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
@@ -46,14 +58,4 @@ const install = function () {
     installHook(path.resolve(dest, './hooks/pre-push'), 'pre-push');
 };
 
-const nonValidEnvironments = ['oficinas', 'preprod', 'prod'];
-
-const mustPostInstallInThisEnvironment = function () {
-    return !process.env.NODE_ENV || nonValidEnvironments.indexOf(process.env.NODE_ENV) === -1;
-};
-
-if (mustPostInstallInThisEnvironment()) {
-    install();
-} else {
-    console.log('JS GIT HOOKS POST INSTALL SKIPPED');
-}
+install();
