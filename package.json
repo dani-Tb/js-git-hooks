@@ -37,7 +37,6 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "mustache": "^2.3.0",
-    "nodegit": "^0.20.1",
     "terminal-kit": "^1.13.11",
     "yargs": "^9.0.1"
   },
