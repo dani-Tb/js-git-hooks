@@ -36,6 +36,8 @@ const removeIgnored = function (files) {
 const prepareCommands = function (files) {
     const commands = [];
 
+    const baseDir = path.resolve(__dirname, '..', '..', '..', '..'); // TODO: improve this!
+
     const executable = path.resolve(
         require.resolve('stylelint').split('/stylelint/').shift(),
         'stylelint',
@@ -46,7 +48,8 @@ const prepareCommands = function (files) {
     files = removeIgnored(files);
 
     for (let i in files) {
-        let command = `${executable} "${files[i]}" --config "${configFilePath}" --syntax scss`;
+        let command = `${executable} "${files[i]}" \
+        --config "${configFilePath}" --syntax scss --configBasedir ${baseDir}`;
 
         commands.push(command);
     }

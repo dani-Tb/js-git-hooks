@@ -4,8 +4,6 @@ const runCommand = require('./run.command');
 
 let commands;
 
-const ERROR_CODE = 1;
-
 const doThem = function (commandStrings, args = []) {
     commands = commandStrings;
 
@@ -18,15 +16,11 @@ const doThem = function (commandStrings, args = []) {
                     resolve(runCommand(fullCommand));
                 },
                 function (error) {
-                    console.log(`Command error ${error}`);
-
-                    reject(ERROR_CODE);
+                    reject(error);
                 }
             ).catch(
                 function (error) {
-                    console.log(`Command exception ${error}`);
-
-                    reject(ERROR_CODE);
+                    reject(error);
                 }
             );
         });
