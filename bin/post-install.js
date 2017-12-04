@@ -37,8 +37,17 @@ const installHook = function (destPath, name) {
 const install = function () {
     let dest = path.resolve(getGitRootFolder(), '.git');
 
-    if (!dest) {
-        throw new Error('Not valid project to install in');
+    if (
+        !fs.existsSync(dest) ||
+        !fs.existsSync(path.resolve(dest, 'hooks'))
+    ) {
+        console.log('\n');
+        console.log('\x1b[33m%s\x1b[0m', 'WARNING: cannot auto-install js-git-hooks:');
+        console.log(' - No `.git/hooks` folder found. (are you using git subomdules?)');
+        console.log(' - You can copy/install scripts by hand.');
+        console.log('\n');
+
+        process.exit(0);
     }
 
     console.log('Project folder: ' + dest);
